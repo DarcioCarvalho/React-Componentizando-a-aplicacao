@@ -1,6 +1,18 @@
-import { MovieCard } from './MovieCard';
+import { ContentHeader } from './ContentHeader';
+import { MoviesCardList } from './MoviesCardList';
 
 import '../styles/content.scss';
+
+export type Movie = {
+  imdbID: string;
+  Title: string;
+  Poster: string;
+  Ratings: Array<{
+    Source: string;
+    Value: string;
+  }>;
+  Runtime: string;
+}
 
 interface ContentProps {
   selectedGenre: {
@@ -9,16 +21,7 @@ interface ContentProps {
     title: string;
   };
 
-  movies: Array<{
-    imdbID: string;
-    Title: string;
-    Poster: string;
-    Ratings: Array<{
-      Source: string;
-      Value: string;
-    }>;
-    Runtime: string;
-  }>
+  movies: Array<Movie>;
 }
 
 export function Content({ selectedGenre, movies }: ContentProps) {
@@ -26,17 +29,9 @@ export function Content({ selectedGenre, movies }: ContentProps) {
 
   return (
     <>
-      <header>
-        <span className="category">Categoria:<span> {selectedGenre.title}</span></span>
-      </header>
+      <ContentHeader title={selectedGenre.title} />
 
-      <main>
-        <div className="movies-list">
-          {movies.map(movie => (
-            <MovieCard key={movie.imdbID} title={movie.Title} poster={movie.Poster} runtime={movie.Runtime} rating={movie.Ratings[0].Value} />
-          ))}
-        </div>
-      </main>
+      <MoviesCardList movies={movies} />
     </>
   );
 }
